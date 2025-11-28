@@ -26,16 +26,16 @@
 			<table>
 				<tbody>
 					<tr>
-						<td><h3 style="font-size: 23px;text-transform: uppercase;color:#ff5c85;">IMS-POS Project</h3></td>
+						<td><h3 style="font-size: 23px;text-transform: uppercase;color:#ff5c85;">POS Project</h3></td>
 					</tr>
 					<tr>
-					  <td><span style="font-weight: bold;font-size: 13px;">Address: </span> <span>Philippines</span></td>
+					  <td><span style="font-weight: bold;font-size: 13px;">Address: </span> <span>Mall Road</span></td>
 					</tr>
 					<tr>
-					   <td><span style="font-weight: bold;font-size: 13px;">City: </span> <span>Manila</span></td>
+					   <td><span style="font-weight: bold;font-size: 13px;">City: </span> <span>Lahore</span></td>
 					</tr>
 					<tr>
-					  <td><span style="font-weight: bold;font-size: 13px;">Postal: </span> <span>9600</span></td>
+					  <td><span style="font-weight: bold;font-size: 13px;">Postal: </span> <span>54000</span></td>
 					</tr>
 					<tr>
 						<td style="height: 20px;"></td>

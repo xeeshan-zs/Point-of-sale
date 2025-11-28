@@ -2,15 +2,17 @@
 	include('product.php');
 	$products = getProducts();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PHP Project - Point of Sale System</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<!-- <script src="https://use.fontawesome.com/0c7a3095b5.js"></script> -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 	<!-- Custom Styles -->
 	<link rel="stylesheet" href="style.css?v=<?= time() ?>">
 
@@ -44,7 +46,7 @@
 											<p class="productName"><?= $product['product_name'] ?></p>
 										</div>
 										<div class="col-md-4">
-											<p class="productPrice">$ <?= $product['price'] ?></p>
+											<p class="productPrice">PKR <?= $product['price'] ?></p>
 										</div>
 									</div>
 								</div> 								
@@ -57,6 +59,9 @@
 			<div class="col-4 posOrderContainer">
 				<div class="pos_header">
 					<div class="setting alignRight">
+                        <a href="add_products.php" target="_blank" style="margin-right: 15px;">
+							<i class="fas fa-box"></i> Products
+						</a>
 						<a href="dashboard.php" target="_blank" id="showDashboardBtn">
 							Show Dashboard
 						</a>
@@ -71,7 +76,7 @@
 					<div class="item_total_container">
 						<p class="item_total">
 							<span class="item_total--label">TOTAL</span>
-							<span class="item_total--value">$ 0.00</span>
+							<span class="item_total--value">PKR 0.00</span>
 						</p>
 					</div>			
 				</div>
@@ -155,7 +160,7 @@
 									</div>
 									<div class="col-6">
 										<p class="searchResultProductName">${row['product_name']}</p>
-										<p class="searchResultProductPrice">$ ${row['price']}</p>
+										<p class="searchResultProductPrice">PKR ${row['price']}</p>
 									</div>
 								</div>`;
 	 					});

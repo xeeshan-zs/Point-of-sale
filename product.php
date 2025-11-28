@@ -2,20 +2,138 @@
 include('connection.php');
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
-// If user checkout itme
+// Route actions
 if($action === 'checkout') saveProducts();
+if($action === 'add_product') addProduct();
+if($action === 'update_product') updateProduct();
+if($action === 'delete_product') deleteProduct();
+if($action === 'get_product') getProductJson();
 
 function getProducts(){
 	// Get connection variable
 	$conn = $GLOBALS['conn'];
 
 	// Query all products
-	$stmt = $conn->prepare("SELECT * FROM products");
+	$stmt = $conn->prepare("SELECT * FROM products ORDER BY product_name ASC");
 	$stmt->execute();
 	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	// Return rows
 	return $rows;
+}
+
+function getProductJson(){
+    $id = $_GET['id'];
+    $conn = $GLOBALS['conn'];
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->execute([$id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+    echo json_encode($product);
+    exit;
+}
+
+function addProduct(){
+    try {
+        $conn = $GLOBALS['conn'];
+        
+        $product_name = $_POST['product_name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        
+        // Get a valid user ID for created_by
+        $stmt = $conn->query("SELECT id FROM users LIMIT 1");
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$user) {
+            // Create a dummy user if none exists
+            $conn->exec("INSERT INTO users (first_name, last_name, password, email, created_at, updated_at) VALUES ('Admin', 'User', 'password', 'admin@example.com', NOW(), NOW())");
+            $user_id = $conn->lastInsertId();
+        } else {
+            $user_id = $user['id'];
+        }
+
+        // Handle Image Upload
+        $img = 'default.png'; // Default image
+        if(isset($_FILES['img']) && $_FILES['img']['error'] == 0){
+            $target_dir = "images/";
+            $file_extension = pathinfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+            $new_filename = uniqid() . '.' . $file_extension;
+            $target_file = $target_dir . $new_filename;
+            
+            if(move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)){
+                $img = $new_filename;
+            }
+        }
+
+        $stmt = $conn->prepare("INSERT INTO products (product_name, description, price, stock, img, created_by, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())");
+        $stmt->execute([$product_name, $description, $price, $stock, $img, $user_id]);
+
+        echo json_encode(['success' => true, 'message' => 'Product added successfully!']);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
+}
+
+function updateProduct(){
+    try {
+        $conn = $GLOBALS['conn'];
+        
+        $id = $_POST['id'];
+        $product_name = $_POST['product_name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        
+        $sql = "UPDATE products SET product_name=?, description=?, price=?, stock=?, updated_at=NOW()";
+        $params = [$product_name, $description, $price, $stock];
+
+        // Handle Image Upload if provided
+        if(isset($_FILES['img']) && $_FILES['img']['error'] == 0){
+            $target_dir = "images/";
+            $file_extension = pathinfo($_FILES["img"]["name"], PATHINFO_EXTENSION);
+            $new_filename = uniqid() . '.' . $file_extension;
+            $target_file = $target_dir . $new_filename;
+            
+            if(move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)){
+                $sql .= ", img=?";
+                $params[] = $new_filename;
+            }
+        }
+        
+        $sql .= " WHERE id=?";
+        $params[] = $id;
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+
+        echo json_encode(['success' => true, 'message' => 'Product updated successfully!']);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
+}
+
+function deleteProduct(){
+    try {
+        $conn = $GLOBALS['conn'];
+        $id = $_POST['id'];
+        
+        $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+
+        echo json_encode(['success' => true, 'message' => 'Product deleted successfully!']);
+    } catch (PDOException $e) {
+        if ($e->getCode() == '23000') {
+            echo json_encode(['success' => false, 'message' => 'Cannot delete product because it is associated with existing sales or inventory records.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
 }
 
 function saveProducts(){
