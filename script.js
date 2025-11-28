@@ -26,7 +26,6 @@ let script = function () {
 
 		// Render to element
 		document.querySelector('.timeAndDate').innerHTML =
-			// months[monthNum] + ' ' + dateCal + ', ' + year + ' ' + timeFormatted['time'] + ':' + min + ':' + sec + ' ' + timeFormatted['am_pm'];
 			months[monthNum] + ' ' + dateCal + ', ' + year + ' ' + timeFormatted['time'] + ':' + min + ' ' + timeFormatted['am_pm'];
 
 		// Set interval to show seconds - every second update the clock
@@ -51,8 +50,8 @@ let script = function () {
 		document.addEventListener('click', function (e) {
 			let targetEl = e.target;
 			let targetElClassList = targetEl.classList;
-			// If click is add to order
 
+			// If click is add to order
 			if (targetElClassList.contains('productImage') ||
 				targetElClassList.contains('productName') ||
 				targetElClassList.contains('productPrice') ||
@@ -68,41 +67,11 @@ let script = function () {
 				let curStock = productInfo['stock'];
 				if (curStock === 0) {
 					loadScript.dialogError('Product selected is currently out of stock.');
-					return a;
+					return;
 				}
 
-				let dialogForm = '\
-						<h6 class="dialogProductName">'+ productInfo['name'] + ' <span class="floatRight">PKR ' + productInfo['price'] + '</span></h6>\
-						<input type="number" id="orderQty" class="form-control"  placeholder="Enter quantity..." min="1"  />\
-					';
-
-				BootstrapDialog.confirm({
-					title: 'Add To Order',
-					type: BootstrapDialog.TYPE_DEFAULT,
-					message: dialogForm,
-					callback: function (addOrder) {
-						if (addOrder) {
-							let orderQty = parseInt(document.getElementById('orderQty').value);
-
-							// If user did not input quantity.
-							if (isNaN(orderQty)) {
-								loadScript.dialogError('Please type order quantity.');
-								// Prevent dialog closing
-								return a;
-							}
-
-							// If quantity is greater than current stock
-							if (orderQty > curStock) {
-								loadScript.dialogError('Quantity is higher than current stock. <strong>(' + curStock + ')</strong>');
-								// Prevent dialog closing
-								return a;
-							}
-
-							// All are correct.
-							loadScript.addToOrder(productInfo, pid, orderQty);
-						}
-					}
-				});
+				// Direct add to order with default quantity 1
+				loadScript.addToOrder(productInfo, pid, 1);
 			}
 
 			// Delete order item
@@ -254,7 +223,7 @@ let script = function () {
 								// This means user entered amount is less than order amt
 								if (loadScript.userChange < 0) {
 									loadScript.dialogError('Please input correct amount.');
-									return a;
+									return;
 								} else {
 									// Save to database
 									$.post('product.php?action=checkout', {
@@ -291,10 +260,9 @@ let script = function () {
 			}
 		});
 
-		document.addEventListener('keyup', function (e) {
+		// Change
+		document.addEventListener('change', function (e) {
 			let targetEl = e.target;
-			let targetElClassList = targetEl.classList;
-
 			if (targetEl.id === 'userAmt') {
 				let userAmt = targetEl.value == '' ? 0 : parseFloat(targetEl.value);
 				loadScript.tenderedAmt = userAmt;
@@ -346,7 +314,7 @@ let script = function () {
 		let html = '<p class="itemNoData">No data</p>';
 
 		// Check if order items variable is empty or not
-		if (Object.keys(loadScript.orderItems)) {
+		if (Object.keys(loadScript.orderItems).length > 0) {
 			let tableHtml = `
 				<table class="table" id="pos_items_tbl">
 					<thead>
