@@ -66,7 +66,7 @@
 							Show Dashboard
 						</a>
 					</div>
-					<p class="logo">IMS</p>
+					<p class="logo"> POS</p>
 					<p class="timeAndDate">XXX X,XXXX XX:XX:XX XX</p>					 
 				</div>
 				<div class="pos_items_container">

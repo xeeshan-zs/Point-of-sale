@@ -29,22 +29,23 @@
         }
         
         .widget-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.6); /* More opaque for better contrast */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 16px;
             padding: 25px;
             height: 100%;
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05);
         }
         
         .widget-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: rgba(255, 255, 255, 0.8);
         }
         
         .widget-icon {
@@ -52,7 +53,7 @@
             top: 20px;
             right: 20px;
             font-size: 2.5rem;
-            opacity: 0.1;
+            opacity: 0.15;
             color: currentColor;
         }
         
@@ -60,22 +61,22 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 5px;
-            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-main); /* Dark text */
+            background: none;
+            -webkit-text-fill-color: initial;
         }
         
         .widget-label {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
-        .widget-sale { color: #2ecc71; }
-        .widget-qty { color: #3498db; }
-        .widget-order { color: #9b59b6; }
+        .widget-sale .widget-value { color: #2ecc71; }
+        .widget-qty .widget-value { color: #3498db; }
+        .widget-order .widget-value { color: #9b59b6; }
         
         .glass-table {
             width: 100%;
@@ -85,23 +86,29 @@
         
         .glass-table th {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
             padding: 10px 15px;
             border: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
         }
         
         .glass-table td {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.5);
             padding: 15px;
-            color: var(--text-primary);
+            color: var(--text-main);
             border: none;
+            font-weight: 500;
         }
         
         .glass-table tr td:first-child { border-radius: 10px 0 0 10px; }
         .glass-table tr td:last-child { border-radius: 0 10px 10px 0; }
         
         .glass-table tr:hover td {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.01);
+            transition: all 0.2s;
         }
         
         .chart-container {
@@ -109,26 +116,28 @@
         }
         
         .btn-glass {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            color: #007AFF;
             padding: 8px 20px;
             border-radius: 50px;
             transition: all 0.3s;
+            font-weight: 500;
         }
         
         .btn-glass:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #007AFF;
             color: white;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
         
-        /* Highcharts Dark Theme Overrides */
+        /* Highcharts Theme Overrides for Light Mode */
         .highcharts-background { fill: transparent; }
-        .highcharts-title { fill: var(--text-primary) !important; font-family: 'Poppins', sans-serif !important; }
+        .highcharts-title { fill: var(--text-main) !important; font-family: 'Poppins', sans-serif !important; font-weight: 600 !important; }
         .highcharts-axis-title { fill: var(--text-secondary) !important; }
         .highcharts-axis-labels { fill: var(--text-secondary) !important; }
         .highcharts-legend-item text { fill: var(--text-secondary) !important; }
-        .highcharts-grid-line { stroke: rgba(255,255,255,0.05); }
+        .highcharts-grid-line { stroke: rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -241,30 +250,32 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
-        // Highcharts Dark Theme Configuration
+        // Highcharts Light Theme Configuration
         Highcharts.theme = {
             colors: ['#2ecc71', '#3498db', '#9b59b6', '#f1c40f', '#e74c3c', '#34495e', '#f39c12', '#16a085'],
             chart: {
                 backgroundColor: 'transparent',
                 style: { fontFamily: 'Poppins, sans-serif' }
             },
-            title: { style: { color: '#E0E0E0' } },
-            legend: { itemStyle: { color: '#E0E0E0' }, itemHoverStyle: { color: '#FFF' } },
+            title: { style: { color: '#1d1d1f', fontWeight: '600' } },
+            legend: { itemStyle: { color: '#86868b' }, itemHoverStyle: { color: '#1d1d1f' } },
             xAxis: {
-                gridLineColor: 'rgba(255,255,255,0.05)',
-                labels: { style: { color: '#B0B0B0' } },
-                lineColor: 'rgba(255,255,255,0.1)',
-                tickColor: 'rgba(255,255,255,0.1)'
+                gridLineColor: 'rgba(0,0,0,0.05)',
+                labels: { style: { color: '#86868b' } },
+                lineColor: 'rgba(0,0,0,0.1)',
+                tickColor: 'rgba(0,0,0,0.1)'
             },
             yAxis: {
-                gridLineColor: 'rgba(255,255,255,0.05)',
-                labels: { style: { color: '#B0B0B0' } },
-                title: { style: { color: '#E0E0E0' } }
+                gridLineColor: 'rgba(0,0,0,0.05)',
+                labels: { style: { color: '#86868b' } },
+                title: { style: { color: '#86868b' } }
             },
             tooltip: {
-                backgroundColor: 'rgba(0, 0, 0, 0.85)',
-                style: { color: '#F0F0F0' },
-                borderColor: '#2ecc71'
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                style: { color: '#1d1d1f' },
+                borderColor: '#2ecc71',
+                borderRadius: 12,
+                shadow: true
             }
         };
         Highcharts.setOptions(Highcharts.theme);
