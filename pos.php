@@ -47,6 +47,7 @@
 										</div>
 										<div class="col-md-4">
 											<p class="productPrice">PKR <?= $product['price'] ?></p>
+                                            <p class="productStock">Stock: <?= $product['stock'] ?></p>
 										</div>
 									</div>
 								</div> 								

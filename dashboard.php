@@ -188,7 +188,7 @@
             <!-- Recent Orders -->
 			<div class="col-lg-5">
 				<div class="glass-panel h-100">
-					<h4 class="fw-bold mb-4">Recent Orders</h4>
+					<h4 class="fw-bold mb-4">‎ ‎ ‎ Recent Orders</h4>
 					<?php if(count($recent_orders)){ ?>
                     <div class="table-responsive">
                         <table class="glass-table">
@@ -223,7 +223,7 @@
 			<div class="col-lg-7">
 				<div class="glass-panel h-100">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-					    <h4 class="fw-bold m-0">Sales Analytics</h4>
+					    <h4 class="fw-bold m-0">‎ ‎ ‎ Sales Analytics</h4>
                         <button class="btn btn-sm btn-glass" id="daterange">
                             <i class="far fa-calendar-alt me-2"></i> Select Range
                         </button>
