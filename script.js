@@ -100,8 +100,9 @@ let script = function () {
             }
 
             // Update qty - decrease qty
-            if (targetElClassList.contains('quantityUpdateBtn_minus')) {
-                let pid = targetEl.dataset.id;
+            let minusBtn = targetEl.closest('.quantityUpdateBtn_minus');
+            if (minusBtn) {
+                let pid = minusBtn.dataset.id;
 
                 // Update product list stock - add 1,
                 loadScript.products[pid]['stock']++;
@@ -119,8 +120,9 @@ let script = function () {
             }
 
             // Update qty - Increase qty
-            if (targetElClassList.contains('quantityUpdateBtn_plus')) {
-                let pid = targetEl.dataset.id;
+            let plusBtn = targetEl.closest('.quantityUpdateBtn_plus');
+            if (plusBtn) {
+                let pid = plusBtn.dataset.id;
 
                 // Check if stock is empty. 
                 // Show alert
