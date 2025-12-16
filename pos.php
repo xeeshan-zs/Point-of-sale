@@ -1,4 +1,9 @@
 <?php
+	// Require authentication
+	require_once('auth.php');
+	requireLogin();
+	$current_user = getCurrentUser();
+
 	include('product.php');
 	$products = getProducts();
 ?>
@@ -60,14 +65,25 @@
 			<div class="col-4 posOrderContainer">
 				<div class="pos_header">
 					<div class="setting alignRight">
+                        <?php if (isAdmin()): ?>
                         <a href="add_products.php" target="_blank" style="margin-right: 15px;">
 							<i class="fas fa-box"></i> Products
 						</a>
-						<a href="dashboard.php" target="_blank" id="showDashboardBtn">
-							Show Dashboard
+						<a href="dashboard.php" target="_blank" style="margin-right: 15px;">
+							Dashboard
+						</a>
+						<?php endif; ?>
+						<a href="logout.php" style="color: #ff4757;">
+							<i class="fas fa-sign-out-alt"></i> Logout
 						</a>
 					</div>
 					<p class="logo"> POS</p>
+					<p style="text-align: center; color: #666; font-size: 0.85rem; margin: 5px 0;">
+						<i class="fas fa-user"></i> <?= htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']) ?> 
+						<span style="background: <?= $current_user['role'] === 'admin' ? '#28a745' : '#007bff' ?>; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; margin-left: 5px;">
+							<?= strtoupper($current_user['role']) ?>
+						</span>
+					</p>
 					<p class="timeAndDate">XXX X,XXXX XX:XX:XX XX</p>					 
 				</div>
 				<div class="pos_items_container">

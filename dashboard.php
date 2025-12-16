@@ -1,4 +1,9 @@
 <?php
+	// Require admin authentication
+	require_once('auth.php');
+	requireAdmin();
+	$current_user = getCurrentUser();
+
 	include('dashboard-bckend.php');
 	$widget_data = getSaleWidgetData();
 	$recent_orders = getRecentOrders();
@@ -152,11 +157,18 @@
                 <a href="pos.php" class="btn btn-glass me-2">
                     <i class="fas fa-cash-register me-2"></i> POS
                 </a>
-                <a href="add_products.php" class="btn btn-glass">
+                <a href="add_products.php" class="btn btn-glass me-2">
                     <i class="fas fa-box me-2"></i> Products
+                </a>
+                <a href="user_management.php" class="btn btn-glass me-2">
+                    <i class="fas fa-users me-2"></i> Users
+                </a>
+                <a href="logout.php" class="btn btn-glass" style="background: rgba(255, 71, 87, 0.1); border-color: rgba(255, 71, 87, 0.2); color: #ff4757;">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
                 </a>
             </div>
         </div>
+
 
         <!-- Widgets -->
 		<div class="row g-4 mb-5">
