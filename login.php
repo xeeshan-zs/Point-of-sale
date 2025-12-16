@@ -350,9 +350,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
         </form>
 
+        <?php /* Uncomment if you need to run installation again
         <div class="footer-text">
             Need to set up the system? <a href="install.php">Run Installation</a>
         </div>
+        */ ?>
     </div>
 
     <script>
