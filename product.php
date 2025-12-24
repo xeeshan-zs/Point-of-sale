@@ -1,6 +1,6 @@
 <?php
-include('connection.php');
-include('auth.php');
+require_once('connection.php');
+require_once('auth.php');
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 // Route actions
