@@ -1,5 +1,6 @@
 <?php
 include('connection.php');
+include('auth.php');
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 // Route actions
@@ -172,7 +173,10 @@ function saveProducts(){
 		$total_amount = $_POST['totalAmt'];
 		$change_amt = $_POST['change'];
 		$tenderedAmt = $_POST['tenderedAmt'];
-		$user_id = 31;
+		$user_id = $_SESSION['user_id'] ?? 0;
+		if($user_id === 0){
+			throw new Exception('User not logged in or invalid session.');
+		}
 
 		$db_arr = [
 			'customer_id' => $customer_id, 
